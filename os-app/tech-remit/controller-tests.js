@@ -24,7 +24,9 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 			send: (function () {
 				return [].concat(...arguments);
 			}),
-		}, params)), params.next || function () {});
+		}, params)), params.next || function () {
+			return Array.from(arguments);
+		});
 	};
 
 	it('calls _DataRaw if match', async function () {
@@ -35,7 +37,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 			hostname,
 			path,
 			_DataRaw: (function () {
-				return Array.from(arguments);
+				return Array.from(arguments).join('');
 			}),
 		}), [mod.DataURL(mod.DataDomainMap()[hostname], path)]);
 	});
@@ -52,15 +54,16 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 	});
 
 	it('returns res.send', async function () {
+		const hostname = uRandomElement(Object.keys(mod.DataDomainMap()));
 		const _DataRaw = Math.random().toString();
 
 		deepEqual(await _OLSKControllerGlobalMiddleware({
-			hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
+			hostname,
 			send: (function () {
 				return Array.from(arguments);
 			}),
 			_DataRaw: (function () {
-				return _DataRaw;
+				return  mod.DataDomainMap()[hostname] + _DataRaw + mod.DataDomainMap()[hostname];
 			}),
 		}), [_DataRaw]);
 	});

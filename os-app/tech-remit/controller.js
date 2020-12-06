@@ -44,7 +44,7 @@ const mod = {
 				res.set(...e);
 			});
 
-			return res.send(result.body);
+			return res.send(mod.DataContent(result.body, mod.DataDomainMap()[req.hostname]));
 		} catch (error) {
 			res.statusCode = error;
 
