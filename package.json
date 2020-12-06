@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "preinstall": "olsk-bundle cleanse",
     "postinstall": "node ./package-postinstall.js",
     "setup": "olsk-bundle",
     "start": "olsk-express",
