@@ -140,4 +140,14 @@ describe('DataResponse', function test_DataResponse() {
 		}), [root + '/index.html']);
 	});
 
+	it('replaces _GRD_REF', function () {
+		deepEqual(_DataResponse({
+			root: mod.DataDomainMap()[process.env._GRD_REF_DOMAIN],
+			path: process.env._GRD_REF_DIR + uRandomElement('', '/'),
+			_DataContent: (function () {
+				return Array.from(arguments);
+			}),
+		}), [process.env._GRD_REF_TEMPLATE + process.env._GRD_REF_DIR + '/']);
+	});
+
 });

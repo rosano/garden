@@ -52,6 +52,13 @@ const mod = {
 	_DataContent: uGet,
 
 	DataResponse (root, path) {
+		if (root === mod.DataDomainMap()[process.env._GRD_REF_DOMAIN]) {
+			root = process.env._GRD_REF_TEMPLATE;
+
+			if (path.match(process.env._GRD_REF_DIR)) {
+				path = (process.env._GRD_REF_DIR + '/').split('//').join('/');
+			}
+		}
 		return this._DataContent(root + (path === '/' ? '/index.html' : path));
 	},
 
