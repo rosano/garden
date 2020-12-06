@@ -22,6 +22,10 @@ const uGet = function (inputData) {
 const mod = {
 
 	async OLSKControllerGlobalMiddleware (req, res, next) {
+		if (res.locals.OLSK_SPEC_UI()) {
+			return next();
+		}
+		
 		if (!this.DataResponse) {
 			Object.assign(this, mod); // #hotfix-oldskool-middleware-this
 		}

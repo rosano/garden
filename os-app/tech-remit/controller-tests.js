@@ -11,6 +11,11 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 			hostname: Math.random().toString(),
 			path: Math.random().toString(),
 		}, params), Object.assign({
+			locals: {
+				OLSK_SPEC_UI: (function () {
+					return false;
+				}),
+			},
 			send: (function () {
 				return [].concat(...arguments);
 			}),

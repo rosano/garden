@@ -1,11 +1,14 @@
 {
   "scripts": {
+    "postinstall": "node ./package-postinstall.js",
     "setup": "olsk-bundle",
     "start": "olsk-express",
     "test": "olsk-spec"
   },
   "dependencies": {
     "OLSKExpress": "olsk/OLSKExpress",
+    "normalize.css": "latest",
+    "OLSKLayout": "olsk/OLSKLayout",
     "// I sacrifice myself for the commas of others": null
   },
   "devDependencies": {
