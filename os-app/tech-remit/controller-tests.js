@@ -141,14 +141,30 @@ describe('DataResponse', function test_DataResponse() {
 		}), [root + '/index.html']);
 	});
 
-	it('replaces _GRD_REF', function () {
-		deepEqual(_DataResponse({
-			root: mod.DataDomainMap()[process.env._GRD_REF_DOMAIN],
-			path: process.env._GRD_REF_DIR + uRandomElement('', '/'),
-			_DataContent: (function () {
-				return Array.from(arguments);
-			}),
-		}), [process.env._GRD_REF_TEMPLATE + process.env._GRD_REF_DIR + '/']);
+	context('_GRD_REF', function () {
+		
+		it('replaces if _GRD_REF_DIR', function () {
+			deepEqual(_DataResponse({
+				root: mod.DataDomainMap()[process.env._GRD_REF_DOMAIN],
+				path: process.env._GRD_REF_DIR + uRandomElement('', '/'),
+				_DataContent: (function () {
+					return Array.from(arguments);
+				}),
+			}), [process.env._GRD_REF_TEMPLATE + process.env._GRD_REF_DIR + '/']);
+		});
+
+		it('ignores if root or alphanumeric', function () {
+			const path = uRandomElement('/', '/' + Date.now().toString(36));
+
+			deepEqual(_DataResponse({
+				root: mod.DataDomainMap()[process.env._GRD_REF_DOMAIN],
+				path,
+				_DataContent: (function () {
+					return Array.from(arguments);
+				}),
+			}), [mod.DataDomainMap()[process.env._GRD_REF_DOMAIN] + (path === '/' ? '/index.html' : path)]);
+		});
+	
 	});
 
 });

@@ -43,7 +43,7 @@ const mod = {
 			Object.entries(result.headers).map(function (e) {
 				res.set(...e);
 			});
-			
+
 			return res.send(result.body);
 		} catch (error) {
 			res.statusCode = error;
@@ -61,7 +61,7 @@ const mod = {
 	_DataContent: uGet,
 
 	DataResponse (root, path) {
-		if (root === mod.DataDomainMap()[process.env._GRD_REF_DOMAIN]) {
+		if (root === mod.DataDomainMap()[process.env._GRD_REF_DOMAIN] && (path.startsWith(process.env._GRD_REF_DIR) || path !== '/' && !path.match(/^\/[a-z0-9]+$/))) {
 			root = process.env._GRD_REF_TEMPLATE;
 
 			if (path.match(process.env._GRD_REF_DIR)) {
