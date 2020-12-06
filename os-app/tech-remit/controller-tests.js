@@ -109,18 +109,18 @@ describe('DataResponse', function test_DataResponse() {
 
 	const _DataResponse = function (params) {
 		return Object.assign(Object.assign({}, mod), {
-			_DataContent: (function () {}),
+			_DataRaw: (function () {}),
 		}, params).DataResponse(params.root || Math.random().toString(), params.path || Math.random().toString(), params.callback || function () {});
 	};
 
-	it('calls _DataContent', function () {
+	it('calls _DataRaw', function () {
 		const root = Math.random().toString();
 		const path = Math.random().toString();
 
 		deepEqual(_DataResponse({
 			root,
 			path,
-			_DataContent: (function () {
+			_DataRaw: (function () {
 				return Array.from(arguments);
 			}),
 		}), [root + path]);
@@ -132,7 +132,7 @@ describe('DataResponse', function test_DataResponse() {
 		deepEqual(_DataResponse({
 			root,
 			path: '/',
-			_DataContent: (function () {
+			_DataRaw: (function () {
 				return Array.from(arguments);
 			}),
 			callback: (function () {
@@ -147,7 +147,7 @@ describe('DataResponse', function test_DataResponse() {
 			deepEqual(_DataResponse({
 				root: mod.DataDomainMap()[process.env._GRD_REF_DOMAIN],
 				path: process.env._GRD_REF_DIR + uRandomElement('', '/'),
-				_DataContent: (function () {
+				_DataRaw: (function () {
 					return Array.from(arguments);
 				}),
 			}), [process.env._GRD_REF_TEMPLATE + process.env._GRD_REF_DIR + '/']);
@@ -159,7 +159,7 @@ describe('DataResponse', function test_DataResponse() {
 			deepEqual(_DataResponse({
 				root: mod.DataDomainMap()[process.env._GRD_REF_DOMAIN],
 				path,
-				_DataContent: (function () {
+				_DataRaw: (function () {
 					return Array.from(arguments);
 				}),
 			}), [mod.DataDomainMap()[process.env._GRD_REF_DOMAIN] + (path === '/' ? '/index.html' : path)]);

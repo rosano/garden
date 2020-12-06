@@ -58,7 +58,7 @@ const mod = {
 		return JSON.parse(process.env.GRD_REMIT_MAP);
 	},
 
-	_DataContent: uGet,
+	_DataRaw: uGet,
 
 	DataResponse (root, path) {
 		if (root === mod.DataDomainMap()[process.env._GRD_REF_DOMAIN] && (path.startsWith(process.env._GRD_REF_DIR) || path !== '/' && !path.match(/^\/[a-z0-9]+$/))) {
@@ -69,7 +69,7 @@ const mod = {
 			}
 		}
 
-		return this._DataContent(root + (path === '/' ? '/index.html' : path));
+		return this._DataRaw(root + (path === '/' ? '/index.html' : path));
 	},
 
 };
