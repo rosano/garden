@@ -10,7 +10,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 		}, params).OLSKControllerGlobalMiddleware(Object.assign({
 			hostname: Math.random().toString(),
 			path: Math.random().toString(),
-		}, params), Object.assign({
+		}, params), Object.assign(params, Object.assign({
 			locals: {
 				OLSK_SPEC_UI: (function () {
 					return false;
@@ -19,7 +19,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 			send: (function () {
 				return [].concat(...arguments);
 			}),
-		}, params), params.next || function () {});
+		}, params)), params.next || function () {});
 	};
 
 	it('calls DataResponse if match', async function () {
@@ -58,6 +58,40 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 				return Promise.resolve(DataResponse);
 			}),
 		}), [DataResponse]);
+	});
+
+	context('error', function () {
+		
+		it('calls next', async function () {
+			const next = Math.random().toString();
+			deepEqual(await _OLSKControllerGlobalMiddleware({
+				hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
+				DataResponse: (function () {
+					return Promise.reject(uRandomInt())
+				}),
+				next: (function () {
+					return Array.from(arguments).concat(next);
+				}),
+			}), [next]);
+		});
+		
+		it('sets res.statusCode', async function () {
+			const item = {
+				statusCode: Math.random().toString(),
+			};
+			const error = uRandomInt();
+
+			deepEqual(await _OLSKControllerGlobalMiddleware(Object.assign(item, {
+				hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
+				DataResponse: (function () {
+					return Promise.reject(error);
+				}),
+				next: (function () {
+					return item.statusCode;
+				}),
+			})), error);
+		});
+	
 	});
 
 });

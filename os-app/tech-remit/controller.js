@@ -3,7 +3,7 @@ const uGet = function (inputData) {
   return new Promise((resolve, reject) => {
     (inputData.startsWith('https') ? require('https') : require('http')).get(inputData, (response) => {
       if (response.statusCode < 200 || response.statusCode > 299) {
-      	return reject(new Error('Error: ' + response.statusCode));
+      	return reject(response.statusCode);
       }
 
       const body = [];
@@ -34,7 +34,13 @@ const mod = {
 			return next();
 		}
 		
-		return res.send(await this.DataResponse(mod.DataDomainMap()[req.hostname], req.path));
+		try {
+			return res.send(await this.DataResponse(mod.DataDomainMap()[req.hostname], req.path));
+		} catch (error) {
+			res.statusCode = error;
+
+			return next();
+		}
 	},
 
 	// DATA
