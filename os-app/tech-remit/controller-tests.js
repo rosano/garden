@@ -6,10 +6,10 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 
 	const _OLSKControllerGlobalMiddleware = function (params) {
 		return Object.assign(Object.assign({}, mod), {
-			DataResponse: (function () {
-				return params.DataResponseReject || Promise.resolve({
+			_DataRaw: (function () {
+				return params._DataRawReject || Promise.resolve({
 					headers: [],
-					body: (params.DataResponse || function() {})(...arguments),
+					body: (params._DataRaw || function() {})(...arguments),
 				});
 			}),
 		}).OLSKControllerGlobalMiddleware(Object.assign({
@@ -27,17 +27,17 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 		}, params)), params.next || function () {});
 	};
 
-	it('calls DataResponse if match', async function () {
+	it('calls _DataRaw if match', async function () {
 		const hostname = uRandomElement(Object.keys(mod.DataDomainMap()));
 		const path = Math.random().toString();
 
 		deepEqual(await _OLSKControllerGlobalMiddleware({
 			hostname,
 			path,
-			DataResponse: (function () {
+			_DataRaw: (function () {
 				return Array.from(arguments);
 			}),
-		}), [mod.DataDomainMap()[hostname], path]);
+		}), [mod.DataURL(mod.DataDomainMap()[hostname], path)]);
 	});
 
 	it('calls next', async function () {
@@ -52,17 +52,17 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 	});
 
 	it('returns res.send', async function () {
-		const DataResponse = Math.random().toString();
+		const _DataRaw = Math.random().toString();
 
 		deepEqual(await _OLSKControllerGlobalMiddleware({
 			hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
 			send: (function () {
 				return Array.from(arguments);
 			}),
-			DataResponse: (function () {
-				return DataResponse;
+			_DataRaw: (function () {
+				return _DataRaw;
 			}),
-		}), [DataResponse]);
+		}), [_DataRaw]);
 	});
 
 	context('error', function () {
@@ -71,7 +71,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 			const next = Math.random().toString();
 			deepEqual(await _OLSKControllerGlobalMiddleware({
 				hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
-				DataResponseReject: Promise.reject(uRandomInt()),
+				_DataRawReject: Promise.reject(uRandomInt()),
 				next: (function () {
 					return Array.from(arguments).concat(next);
 				}),
@@ -86,7 +86,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 
 			deepEqual(await _OLSKControllerGlobalMiddleware(Object.assign(item, {
 				hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
-				DataResponseReject: Promise.reject(error),
+				_DataRawReject: Promise.reject(error),
 				next: (function () {
 					return item.statusCode;
 				}),
@@ -105,64 +105,65 @@ describe('DataDomainMap', function test_DataDomainMap() {
 
 });
 
-describe('DataResponse', function test_DataResponse() {
+describe('DataContent', function test_DataContent() {
 
-	const _DataResponse = function (params) {
-		return Object.assign(Object.assign({}, mod), {
-			_DataRaw: (function () {}),
-		}, params).DataResponse(params.root || Math.random().toString(), params.path || Math.random().toString(), params.callback || function () {});
+	const _DataContent = function (params) {
+		return mod.DataContent(params.raw || Math.random().toString(), params.needle);
 	};
 
-	it('calls _DataRaw', function () {
+	it('returns result with substitutions', function () {
+		const raw = Math.random().toString();
+		const needle = Math.random().toString();
+
+		deepEqual(_DataContent({
+			raw: needle + raw + needle,
+			needle,
+		}), raw);
+	});
+
+});
+
+describe('DataURL', function test_DataURL() {
+
+	const _DataURL = function (params) {
+		return mod.DataURL(params.root || Math.random().toString(), params.path || Math.random().toString());
+	};
+
+	it('returns url', function () {
 		const root = Math.random().toString();
 		const path = Math.random().toString();
 
-		deepEqual(_DataResponse({
+		deepEqual(_DataURL({
 			root,
 			path,
-			_DataRaw: (function () {
-				return Array.from(arguments);
-			}),
-		}), [root + path]);
+		}), root + path);
 	});
 
 	it('replaces /', function () {
 		const root = Math.random().toString();
 
-		deepEqual(_DataResponse({
+		deepEqual(_DataURL({
 			root,
 			path: '/',
-			_DataRaw: (function () {
-				return Array.from(arguments);
-			}),
-			callback: (function () {
-				return Array.from(arguments);
-			}),
-		}), [root + '/index.html']);
+		}), root + '/index.html');
 	});
 
 	context('_GRD_REF', function () {
 		
 		it('replaces if _GRD_REF_DIR', function () {
-			deepEqual(_DataResponse({
+			deepEqual(_DataURL({
 				root: mod.DataDomainMap()[process.env._GRD_REF_DOMAIN],
 				path: process.env._GRD_REF_DIR + uRandomElement('', '/'),
-				_DataRaw: (function () {
-					return Array.from(arguments);
-				}),
-			}), [process.env._GRD_REF_TEMPLATE + process.env._GRD_REF_DIR + '/']);
+			}), process.env._GRD_REF_TEMPLATE + process.env._GRD_REF_DIR + '/');
 		});
 
 		it('ignores if root or alphanumeric', function () {
 			const path = uRandomElement('/', '/' + Date.now().toString(36));
 
-			deepEqual(_DataResponse({
+			deepEqual(_DataURL({
 				root: mod.DataDomainMap()[process.env._GRD_REF_DOMAIN],
 				path,
-				_DataRaw: (function () {
-					return Array.from(arguments);
-				}),
-			}), [mod.DataDomainMap()[process.env._GRD_REF_DOMAIN] + (path === '/' ? '/index.html' : path)]);
+			}), mod.DataDomainMap()[process.env._GRD_REF_DOMAIN] + (path === '/' ? '/index.html' : path));
 		});
 	
 	});

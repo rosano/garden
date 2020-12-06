@@ -29,7 +29,7 @@ const mod = {
 			return next();
 		}
 		
-		if (!this.DataResponse) {
+		if (!this.DataURL) {
 			Object.assign(this, mod); // #hotfix-oldskool-middleware-this
 		}
 
@@ -38,7 +38,7 @@ const mod = {
 		}
 		
 		try {
-			const result = await this.DataResponse(mod.DataDomainMap()[req.hostname], req.path);
+			const result = await this._DataRaw(this.DataURL(mod.DataDomainMap()[req.hostname], req.path));
 			
 			Object.entries(result.headers).map(function (e) {
 				res.set(...e);
@@ -60,7 +60,11 @@ const mod = {
 
 	_DataRaw: uGet,
 
-	DataResponse (root, path) {
+	DataContent (raw, needle) {
+		return raw.split(needle).join('');
+	},
+
+	DataURL (root, path) {
 		if (root === mod.DataDomainMap()[process.env._GRD_REF_DOMAIN] && (path.startsWith(process.env._GRD_REF_DIR) || path !== '/' && !path.match(/^\/[a-z0-9]+$/))) {
 			root = process.env._GRD_REF_TEMPLATE;
 
@@ -69,7 +73,7 @@ const mod = {
 			}
 		}
 
-		return this._DataRaw(root + (path === '/' ? '/index.html' : path));
+		return root + (path === '/' ? '/index.html' : path);
 	},
 
 };
