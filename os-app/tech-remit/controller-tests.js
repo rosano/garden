@@ -6,8 +6,13 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 
 	const _OLSKControllerGlobalMiddleware = function (params) {
 		return Object.assign(Object.assign({}, mod), {
-			DataResponse: (function () {}),
-		}, params).OLSKControllerGlobalMiddleware(Object.assign({
+			DataResponse: (function () {
+				return params.DataResponseReject || Promise.resolve({
+					headers: [],
+					body: (params.DataResponse || function() {})(...arguments),
+				});
+			}),
+		}).OLSKControllerGlobalMiddleware(Object.assign({
 			hostname: Math.random().toString(),
 			path: Math.random().toString(),
 		}, params), Object.assign(params, Object.assign({
@@ -55,7 +60,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 				return Array.from(arguments);
 			}),
 			DataResponse: (function () {
-				return Promise.resolve(DataResponse);
+				return DataResponse;
 			}),
 		}), [DataResponse]);
 	});
@@ -66,9 +71,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 			const next = Math.random().toString();
 			deepEqual(await _OLSKControllerGlobalMiddleware({
 				hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
-				DataResponse: (function () {
-					return Promise.reject(uRandomInt())
-				}),
+				DataResponseReject: Promise.reject(uRandomInt()),
 				next: (function () {
 					return Array.from(arguments).concat(next);
 				}),
@@ -83,9 +86,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 
 			deepEqual(await _OLSKControllerGlobalMiddleware(Object.assign(item, {
 				hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
-				DataResponse: (function () {
-					return Promise.reject(error);
-				}),
+				DataResponseReject: Promise.reject(error),
 				next: (function () {
 					return item.statusCode;
 				}),

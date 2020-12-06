@@ -13,7 +13,10 @@ const uGet = function (inputData) {
       });
 
       response.on('end', function () {
-      	return resolve(body.join(''))
+      	return resolve({
+      		headers: response.headers,
+      		body: body.join(''),
+      	})
       });
     }).on('error', reject);
   });
@@ -35,7 +38,13 @@ const mod = {
 		}
 		
 		try {
-			return res.send(await this.DataResponse(mod.DataDomainMap()[req.hostname], req.path));
+			const result = await this.DataResponse(mod.DataDomainMap()[req.hostname], req.path);
+			
+			Object.entries(result.headers).map(function (e) {
+				res.set(...e);
+			});
+			
+			return res.send(result.body);
 		} catch (error) {
 			res.statusCode = error;
 
@@ -59,6 +68,7 @@ const mod = {
 				path = (process.env._GRD_REF_DIR + '/').split('//').join('/');
 			}
 		}
+
 		return this._DataContent(root + (path === '/' ? '/index.html' : path));
 	},
 
