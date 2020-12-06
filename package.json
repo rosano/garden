@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "setup": "olsk-bundle",
+    "start": "olsk-express",
+    "test": "olsk-spec"
+  },
+  "dependencies": {
+    "OLSKExpress": "olsk/OLSKExpress",
+    "// I sacrifice myself for the commas of others": null
+  },
+  "devDependencies": {
+    "OLSKSpec": "olsk/OLSKSpec",
+    "OLSKBundle": "olsk/OLSKBundle",
+    "// I sacrifice myself for the commas of others": null
+  }
+}
