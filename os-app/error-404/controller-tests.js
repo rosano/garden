@@ -17,7 +17,7 @@ describe('GRDError404Middleware', function test_GRDError404Middleware() {
 			error,
 			statusCode: 404 + uRandomInt() * uRandomElement(-1, 1),
 			next: (function () {
-				return Array.from(arguments);
+				return [...arguments];
 			}),
 		}), [error]);
 	});
@@ -28,7 +28,7 @@ describe('GRDError404Middleware', function test_GRDError404Middleware() {
 		deepEqual(await _GRDError404Middleware({
 			statusCode: 404,
 			OLSKLayoutRender: (function () {
-				return Array.from(arguments);
+				return [...arguments];
 			}),
 		}), [require('path').join(__dirname, 'ui-view')]);
 	});
