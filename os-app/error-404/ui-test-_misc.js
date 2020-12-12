@@ -11,6 +11,10 @@ describe('GRDError404_Misc', function () {
 		it('classes OLSKCommon', function () {
 			browser.assert.hasClass(GRDError404, 'OLSKCommon');
 		});
+
+		it('classes OLSKCommonCapped', function () {
+			browser.assert.hasClass(GRDError404, 'OLSKCommonCapped');
+		});
 	
 	});
 
