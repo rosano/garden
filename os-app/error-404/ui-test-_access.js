@@ -3,8 +3,8 @@ const kDefaultRoutePath = require('./controller.js').OLSKControllerRoutes().shif
 Object.entries({
 	GRDError404: '.GRDError404',
 	
-	GRDError404Identity: '.GRDError404Identity',
-	GRDError404IdentityName: '.GRDError404IdentityName',
+	GRDError404Crown: '.GRDError404Crown',
+	GRDError404CrownName: '.GRDError404CrownName',
 	
 	GRDError404Content: '.GRDError404Content',
 }).map(function (e) {
@@ -21,12 +21,12 @@ describe('GRDError404_Access', function () {
 		browser.assert.elements(GRDError404, 1);
 	});
 	
-	it('shows GRDError404Identity', function() {
-		browser.assert.elements(GRDError404Identity, 1);
+	it('shows GRDError404Crown', function() {
+		browser.assert.elements(GRDError404Crown, 1);
 	});
 	
-	it('shows GRDError404IdentityName', function() {
-		browser.assert.elements(GRDError404IdentityName, 1);
+	it('shows GRDError404CrownName', function() {
+		browser.assert.elements(GRDError404CrownName, 1);
 	});
 
 	it('shows GRDError404Content', function () {

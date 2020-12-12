@@ -18,8 +18,8 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 			browser.assert.text('title', uLocalized('GRDError404Title'));
 		});
 
-		it('localizes GRDError404IdentityName', function () {
-			browser.assert.text(GRDError404IdentityName, uLocalized('GRDError404Title'));
+		it('localizes GRDError404CrownName', function () {
+			browser.assert.text(GRDError404CrownName, uLocalized('GRDError404Title'));
 		});
 
 		it('localizes GRDError404Content', function () {

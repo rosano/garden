@@ -18,14 +18,14 @@ describe('GRDError404_Misc', function () {
 	
 	});
 
-	describe('GRDError404Identity', function test_GRDError404Identity() {
+	describe('GRDError404Crown', function test_GRDError404Crown() {
 
 		it('classes OLSKCommonCard', function () {
-			browser.assert.hasClass(GRDError404Identity, 'OLSKCommonCard');
+			browser.assert.hasClass(GRDError404Crown, 'OLSKCommonCard');
 		});
 
-		it('classes OLSKCommonIdentityCard', function () {
-			browser.assert.hasClass(GRDError404Identity, 'OLSKCommonIdentityCard');
+		it('classes OLSKCommonCrownCard', function () {
+			browser.assert.hasClass(GRDError404Crown, 'OLSKCommonCrownCard');
 		});
 		
 	});
