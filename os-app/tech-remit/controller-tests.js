@@ -1,4 +1,4 @@
-const { throws, deepEqual } = require('assert');
+const { throws, rejects, deepEqual } = require('assert');
 
 const mod = require('./controller.js');
 
@@ -6,43 +6,27 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 
 	const _OLSKControllerGlobalMiddleware = function (params) {
 		return Object.assign(Object.assign({}, mod), {
-			_DataRaw: (function () {
-				return params._DataRawReject || Promise.resolve({
-					headers: [],
-					body: (params._DataRaw || function() {})(...arguments),
-				});
+			DataResponseBody: params.DataResponseBody || (function () {
+				return [...arguments];
 			}),
 		}).OLSKControllerGlobalMiddleware(Object.assign({
 			hostname: Math.random().toString(),
 			path: Math.random().toString(),
-		}, params), Object.assign(params, Object.assign({
+		}, params), Object.assign(params.res || params, Object.assign({
 			locals: {
 				OLSK_SPEC_UI: (function () {
 					return false;
 				}),
 			},
 			send: (function () {
-				return [].concat(...arguments);
+				return [...arguments];
 			}),
 		}, params)), params.next || function () {
 			return [...arguments];
 		});
 	};
 
-	it('calls _DataRaw if match', async function () {
-		const hostname = uRandomElement(Object.keys(mod.DataDomainMap()));
-		const path = Math.random().toString();
-
-		deepEqual(await _OLSKControllerGlobalMiddleware({
-			hostname,
-			path,
-			_DataRaw: (function () {
-				return [...arguments].join('');
-			}),
-		}), [mod.DataURL(mod.DataDomainMap()[hostname], path)]);
-	});
-
-	it('calls next', async function () {
+	it('calls next if no match', async function () {
 		const next = Math.random().toString();
 
 		deepEqual(await _OLSKControllerGlobalMiddleware({
@@ -53,28 +37,48 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 		}), next);
 	});
 
-	it('returns res.send', async function () {
+	it('calls DataResponseBody', async function () {
 		const hostname = uRandomElement(Object.keys(mod.DataDomainMap()));
-		const _DataRaw = Math.random().toString();
+		const path = Math.random().toString();
+		const res = {
+			[Math.random().toString()]: Math.random().toString(),
+		};
 
 		deepEqual(await _OLSKControllerGlobalMiddleware({
 			hostname,
+			path,
+			res,
+		}), [[{
+			ParamHostname: hostname,
+			ParamPath: path,
+			ParamResponse: res,
+		}, ]]);
+	});
+
+	it('returns res.send with DataResponseBody result', async function () {
+		const DataResponseBody = Math.random().toString();
+
+		deepEqual(await _OLSKControllerGlobalMiddleware({
+			hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
 			send: (function () {
 				return [...arguments];
 			}),
-			_DataRaw: (function () {
-				return  mod.DataDomainMap()[hostname] + _DataRaw + mod.DataDomainMap()[hostname];
+			DataResponseBody: (function () {
+				return DataResponseBody;
 			}),
-		}), [_DataRaw]);
+		}), [DataResponseBody]);
 	});
 
 	context('error', function () {
 		
 		it('calls next', async function () {
 			const next = Math.random().toString();
+
 			deepEqual(await _OLSKControllerGlobalMiddleware({
 				hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
-				_DataRawReject: Promise.reject(uRandomInt()),
+				DataResponseBody: (function () {
+					throw new Error(uRandomInt());
+				}),
 				next: (function () {
 					return [...arguments].concat(next);
 				}),
@@ -89,13 +93,109 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 
 			deepEqual(await _OLSKControllerGlobalMiddleware(Object.assign(item, {
 				hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
-				_DataRawReject: Promise.reject(error),
+				DataResponseBody: (function () {
+					throw new Error(error);
+				}),
 				next: (function () {
 					return item.statusCode;
 				}),
 			})), error);
 		});
 	
+	});
+
+});
+
+describe('DataResponseBody', function test_DataResponseBody() {
+
+	const _DataResponseBody = function (params = {}) {
+		return Object.assign(Object.assign({}, mod), {
+			_DataRaw: (function () {
+				return Promise.resolve({
+					headers: params.headers || [],
+					body: (params._DataRaw || function() {})(...arguments),
+				});
+			}),
+			DataContent: params.DataContent || function () {
+				return [...arguments];
+			},
+		}).DataResponseBody(Object.assign({
+			ParamHostname: Math.random().toString(),
+			ParamPath: Math.random().toString(),
+			ParamResponse: {
+				'set': params.set || (function () {}),
+			},
+		}, params));
+	};
+
+	it('rejects if not object', function () {
+		return rejects(mod.DataResponseBody(null), /GRDErrorInputNotValid/);
+	});
+
+	it('rejects if ParamHostname not string', function () {
+		return rejects(_DataResponseBody({
+			ParamHostname: null,
+		}), /GRDErrorInputNotValid/);
+	});
+
+	it('rejects if ParamPath not string', function () {
+		return rejects(_DataResponseBody({
+			ParamPath: null,
+		}), /GRDErrorInputNotValid/);
+	});
+
+	it('rejects if ParamResponse not object', function () {
+		return rejects(_DataResponseBody({
+			ParamResponse: null,
+		}), /GRDErrorInputNotValid/);
+	});
+
+	it('calls _DataRaw', async function () {
+		const ParamHostname = uRandomElement(Object.keys(mod.DataDomainMap()));
+		const ParamPath = Math.random().toString();
+
+		deepEqual(await _DataResponseBody({
+			ParamHostname,
+			ParamPath,
+			_DataRaw: (function () {
+				return [...arguments].join('');
+			}),
+			DataContent: (function () {
+				return [...arguments].shift();
+			}),
+		}), mod.DataURL(mod.DataDomainMap()[ParamHostname], ParamPath));
+	});
+
+	it('calls ParamResponse.set with _DataRaw.headers', async function () {
+		const item = [];
+
+		const headers = {
+			[Math.random().toString()]: Math.random().toString(),
+		};
+
+		await _DataResponseBody({
+			headers,
+			'set': (function () {
+				item.push([...arguments]);
+			}),
+		});
+
+		deepEqual(item, Object.entries(headers));
+	});
+
+	it('calls DataContent', async function () {
+		const ParamHostname = uRandomElement(Object.keys(mod.DataDomainMap()));
+		const _DataRaw = Math.random().toString();
+
+		deepEqual(await _DataResponseBody({
+			ParamHostname,
+			_DataRaw: (function () {
+				return _DataRaw;
+			}),
+			DataContent: (function () {
+				return [...arguments];
+			}),
+		}), [_DataRaw, mod.DataDomainMap()[ParamHostname]]);
 	});
 
 });

@@ -38,21 +38,45 @@ const mod = {
 		}
 		
 		try {
-			const result = await this._DataRaw(this.DataURL(mod.DataDomainMap()[req.hostname], req.path));
-			
-			Object.entries(result.headers).map(function (e) {
-				res.set(...e);
-			});
-
-			return res.send(mod.DataContent(result.body, mod.DataDomainMap()[req.hostname]));
+			return res.send(await this.DataResponseBody({
+				ParamHostname: req.hostname,
+				ParamPath: req.path,
+				ParamResponse: res,
+			}));
 		} catch (error) {
-			res.statusCode = error;
+			res.statusCode = parseInt(error.message);
 
 			return next();
 		}
 	},
 
 	// DATA
+
+	async DataResponseBody (params) {
+		if (typeof params !== 'object' || params === null) {
+			return Promise.reject(new Error('GRDErrorInputNotValid'));
+		}
+
+		if (typeof params.ParamHostname !== 'string') {
+			return Promise.reject(new Error('GRDErrorInputNotValid'));
+		}
+
+		if (typeof params.ParamPath !== 'string') {
+			return Promise.reject(new Error('GRDErrorInputNotValid'));
+		}
+
+		if (typeof params.ParamResponse !== 'object' || params.ParamResponse === null) {
+			return Promise.reject(new Error('GRDErrorInputNotValid'));
+		}
+
+		const result = await this._DataRaw(mod.DataURL(mod.DataDomainMap()[params.ParamHostname], params.ParamPath));
+
+		Object.entries(result.headers).map(function (e) {
+			params.ParamResponse.set(...e);
+		});
+
+		return this.DataContent(result.body, mod.DataDomainMap()[params.ParamHostname]);
+	},
 
 	DataDomainMap() {
 		return JSON.parse(process.env.GRD_REMIT_MAP);
