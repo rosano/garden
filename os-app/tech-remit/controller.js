@@ -85,7 +85,7 @@ const mod = {
 	_DataRaw: uGet,
 
 	DataContent (raw, needle) {
-		return raw.split(needle).join('');
+		return raw.split(needle).join('').replace('</head>', `<meta property="og:image" content="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }"></head>`);
 	},
 
 	DataURL (root, path) {

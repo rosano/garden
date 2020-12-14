@@ -232,6 +232,18 @@ describe('DataContent', function test_DataContent() {
 		}), raw);
 	});
 
+	context('meta', function () {
+		
+		it('inserts og:image', function () {
+			const raw = Math.random().toString() + '</head></head>';
+
+			deepEqual(_DataContent({
+				raw,
+			}), raw.replace('</head>', `<meta property="og:image" content="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }"></head>`));
+		});
+	
+	});
+
 });
 
 describe('DataURL', function test_DataURL() {
