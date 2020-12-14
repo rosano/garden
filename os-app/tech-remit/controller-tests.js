@@ -211,10 +211,18 @@ describe('DataDomainMap', function test_DataDomainMap() {
 describe('DataContent', function test_DataContent() {
 
 	const _DataContent = function (params) {
-		return mod.DataContent(params.raw || Math.random().toString(), params.needle);
+		return mod.DataContent(params.raw || Math.random().toString(), params.needle || Math.random().toString());
 	};
 
-	it('returns result with substitutions', function () {
+	it('returns param1', function () {
+		const raw = Math.random().toString();
+
+		deepEqual(_DataContent({
+			raw,
+		}), raw);
+	});
+
+	it('replaces param2', function () {
 		const raw = Math.random().toString();
 		const needle = Math.random().toString();
 
