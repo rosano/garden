@@ -1,0 +1,24 @@
+<%
+locals.OLSKPageTitle = OLSKLocalized('GRDVitrineTitle');
+locals.OLSKPageDescription = OLSKLocalized('GRDVitrineDescription');
+locals.OLSKPageAssets = [
+	'/_shared/__external/normalize.css/normalize.css',
+	'/_shared/__external/OLSKLayout/ui-style.css',
+];
+locals.OLSKPageUseLivereload = process.env.NODE_ENV === 'development';
+locals.OLSKPagePublicConstants = {
+	OLSKSharedPageCurrentLanguage: OLSKSharedPageCurrentLanguage,
+};
+%>
+
+<div class="GRDVitrine OLSKCommon OLSKCommonCapped">
+
+<div class="GRDVitrineCrown OLSKCommonCard OLSKCommonCrownCard">
+	<img class="GRDVitrineCrownIcon" src="<%= process.env.OLSK_EXPRESS_IDENTITY_ICON_URL %>" role="presentation" />
+	<section>
+		<span class="GRDVitrineCrownName"><%= OLSKLocalized('GRDVitrineTitle') %></span>
+		<span class="GRDVitrineCrownBlurb"><%= OLSKLocalized('GRDVitrineDescription') %></span>
+	</section>
+</div>
+
+</div>
