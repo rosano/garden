@@ -10,11 +10,11 @@
     "OLSKExpress": "olsk/OLSKExpress",
     "normalize.css": "latest",
     "OLSKLayout": "olsk/OLSKLayout",
+    "OLSKBundle": "olsk/OLSKBundle",
     "// I sacrifice myself for the commas of others": null
   },
   "devDependencies": {
     "OLSKSpec": "olsk/OLSKSpec",
-    "OLSKBundle": "olsk/OLSKBundle",
     "// I sacrifice myself for the commas of others": null
   }
 }
