@@ -9,7 +9,7 @@
   "dependencies": {
     "OLSKExpress": "olsk/OLSKExpress",
     "normalize.css": "latest",
-    "OLSKLayout": "olsk/OLSKLayout",
+    "OLSKDecor": "olsk/OLSKDecor",
     "OLSKBundle": "olsk/OLSKBundle",
     "// I sacrifice myself for the commas of others": null
   },

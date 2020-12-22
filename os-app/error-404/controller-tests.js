@@ -6,7 +6,7 @@ describe('GRDError404Middleware', function test_GRDError404Middleware() {
 
 	const _GRDError404Middleware = function (params) {
 		return mod.GRDError404Middleware(params.error || new Error(Math.random().toString()), {}, Object.assign({
-			OLSKLayoutRender: (function () {}),
+			OLSKExpressLayoutRender: (function () {}),
 		}, params), params.next);
 	};
 
@@ -22,12 +22,12 @@ describe('GRDError404Middleware', function test_GRDError404Middleware() {
 		}), [error]);
 	});
 
-	it('returns res.OLSKLayoutRender', async function () {
+	it('returns res.OLSKExpressLayoutRender', async function () {
 		const DataResponse = Math.random().toString();
 
 		deepEqual(await _GRDError404Middleware({
 			statusCode: 404,
-			OLSKLayoutRender: (function () {
+			OLSKExpressLayoutRender: (function () {
 				return [...arguments];
 			}),
 		}), [require('path').join(__dirname, 'ui-view')]);
