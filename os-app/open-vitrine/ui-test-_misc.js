@@ -8,12 +8,12 @@ describe('GRDVitrine_Misc', function () {
 
 	describe('GRDVitrine', function () {
 		
-		it('classes OLSKCommon', function () {
-			browser.assert.hasClass(GRDVitrine, 'OLSKCommon');
+		it('classes OLSKDecor', function () {
+			browser.assert.hasClass(GRDVitrine, 'OLSKDecor');
 		});
 
-		it('classes OLSKCommonCapped', function () {
-			browser.assert.hasClass(GRDVitrine, 'OLSKCommonCapped');
+		it('classes OLSKDecorCapped', function () {
+			browser.assert.hasClass(GRDVitrine, 'OLSKDecorCapped');
 		});
 	
 	});

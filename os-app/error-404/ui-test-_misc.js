@@ -8,12 +8,12 @@ describe('GRDError404_Misc', function () {
 
 	describe('GRDError404', function test_GRDError404 () {
 		
-		it('classes OLSKCommon', function () {
-			browser.assert.hasClass(GRDError404, 'OLSKCommon');
+		it('classes OLSKDecor', function () {
+			browser.assert.hasClass(GRDError404, 'OLSKDecor');
 		});
 
-		it('classes OLSKCommonCapped', function () {
-			browser.assert.hasClass(GRDError404, 'OLSKCommonCapped');
+		it('classes OLSKDecorCapped', function () {
+			browser.assert.hasClass(GRDError404, 'OLSKDecorCapped');
 		});
 	
 	});
