@@ -232,6 +232,16 @@ describe('DataContent', function test_DataContent() {
 		}), raw);
 	});
 
+	it('replaces param2 + index.html', function () {
+		const raw = Math.random().toString();
+		const needle = Math.random().toString();
+
+		deepEqual(_DataContent({
+			raw: raw + needle + '/index.html',
+			needle,
+		}), raw + '/');
+	});
+
 	context('meta', function () {
 		
 		it('inserts og:image', function () {
