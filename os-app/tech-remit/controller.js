@@ -3,7 +3,7 @@ const uGet = function (inputData) {
   return new Promise((resolve, reject) => {
     (inputData.startsWith('https') ? require('https') : require('http')).get(inputData, (response) => {
       if (response.statusCode < 200 || response.statusCode > 299) {
-      	return reject(response.statusCode);
+      	return reject(new Error(response.statusCode));
       }
 
       const body = [];
@@ -46,7 +46,7 @@ const mod = {
 		} catch (error) {
 			res.statusCode = parseInt(error.message);
 
-			return next();
+			return next(new Error());
 		}
 	},
 

@@ -82,7 +82,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 				next: (function () {
 					return [...arguments].concat(next);
 				}),
-			}), [next]);
+			}), [new Error(), next]);
 		});
 		
 		it('sets res.statusCode', async function () {
