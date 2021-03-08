@@ -44,9 +44,11 @@ const mod = {
 				ParamResponse: res,
 			}));
 		} catch (error) {
-			res.statusCode = parseInt(error.message);
+			const code = parseInt(error.message);
 
-			return next(new Error());
+			res.statusCode = isNaN(code) ? 500 : code;
+
+			return next(isNaN(code) ? error : new Error());
 		}
 	},
 
