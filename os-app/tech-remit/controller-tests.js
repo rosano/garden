@@ -111,9 +111,16 @@ describe('DataResponseBody', function test_DataResponseBody() {
 	const _DataResponseBody = function (params = {}) {
 		return Object.assign(Object.assign({}, mod), {
 			_DataRaw: (function () {
+				const response = (params._DataRaw || function() {})(...arguments);
 				return Promise.resolve({
-					headers: params.headers || [],
-					body: (params._DataRaw || function() {})(...arguments),
+					headers: {
+						raw: (function () {
+							return params.headers || [];
+						}),
+					},
+					text: (function () {
+						return response;
+					}),
 				});
 			}),
 			DataContent: params.DataContent || function () {
@@ -171,19 +178,19 @@ describe('DataResponseBody', function test_DataResponseBody() {
 
 		const item = [];
 
-		const headers = {
-			[Math.random().toString()]: Math.random().toString(),
-		};
+		const header = Math.random().toString();
 
 		await _DataResponseBody({
 			ParamHostname,
-			headers,
+			headers: {
+				[header]: [header],
+			},
 			'set': (function () {
 				item.push([...arguments]);
 			}),
 		});
 
-		deepEqual(item, Object.entries(headers));
+		deepEqual(item, [[header, header]]);
 	});
 
 	it('calls DataContent', async function () {
