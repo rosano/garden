@@ -221,7 +221,7 @@ describe('DataDomainMap', function test_DataDomainMap() {
 describe('DataContent', function test_DataContent() {
 
 	const _DataContent = function (params) {
-		return mod.DataContent(params.raw || Math.random().toString(), params.needle || Math.random().toString());
+		return mod.DataContent(params.raw || Math.random().toString(), (params.needle || Math.random().toString()) + mod._DataRootNeedle());
 	};
 
 	it('returns param1', function () {
@@ -242,7 +242,7 @@ describe('DataContent', function test_DataContent() {
 		}), raw);
 	});
 
-	it('replaces param2 + index.html', function () {
+	it('replaces param2 + _DataRootNeedle', function () {
 		const raw = Math.random().toString();
 		const needle = Math.random().toString();
 

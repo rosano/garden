@@ -64,8 +64,9 @@ const mod = {
 
 	_DataRaw: require('node-fetch'),
 
-	DataContent (raw, needle) {
-		return raw.split(needle + '/index.html').join('/').split(needle).join('').replace('</head>', `<meta property="og:image" content="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }"></head>`);
+	DataContent (raw, root) {
+		const base = mod._DataRootBase(root);
+		return raw.split(root).join('/').split(base).join('').replace('</head>', `<meta property="og:image" content="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }"></head>`);
 	},
 
 	_DataRootNeedle () {
