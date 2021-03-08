@@ -167,6 +167,8 @@ describe('DataResponseBody', function test_DataResponseBody() {
 	});
 
 	it('calls ParamResponse.set with _DataRaw.headers', async function () {
+		const ParamHostname = uRandomElement(Object.keys(mod.DataDomainMap()));
+
 		const item = [];
 
 		const headers = {
@@ -174,6 +176,7 @@ describe('DataResponseBody', function test_DataResponseBody() {
 		};
 
 		await _DataResponseBody({
+			ParamHostname,
 			headers,
 			'set': (function () {
 				item.push([...arguments]);
@@ -237,7 +240,7 @@ describe('DataContent', function test_DataContent() {
 		const needle = Math.random().toString();
 
 		deepEqual(_DataContent({
-			raw: raw + needle + '/index.html',
+			raw: raw + needle + mod._DataRootNeedle(),
 			needle,
 		}), raw + '/');
 	});
@@ -256,6 +259,41 @@ describe('DataContent', function test_DataContent() {
 
 });
 
+describe('_DataRootNeedle', function test__DataRootNeedle() {
+
+	it('returns string', function () {
+		deepEqual(mod._DataRootNeedle(), '/index.html');
+	});
+
+});
+
+describe('_DataRootBase', function test__DataRootBase() {
+
+	it('throws if not string', function () {
+		throws(function () {
+			mod._DataRootBase(null);
+		}, /GRDErrorInputNotValid/);
+	});
+
+	it('throws if without _DataRootNeedle', function () {
+		throws(function () {
+			mod._DataRootBase(Math.random().toString());
+		}, /GRDErrorInputNotValid/);
+	});
+
+	it('throws if _DataRootNeedle not at end', function () {
+		throws(function () {
+			mod._DataRootBase(mod._DataRootNeedle() + Math.random().toString());
+		}, /GRDErrorInputNotValid/);
+	});
+
+	it('returns string', function () {
+		const item = Math.random().toString();
+		deepEqual(mod._DataRootBase(item + mod._DataRootNeedle()), item);
+	});
+
+});
+
 describe('DataURL', function test_DataURL() {
 
 	const _DataURL = function (params) {
@@ -263,22 +301,14 @@ describe('DataURL', function test_DataURL() {
 	};
 
 	it('returns url', function () {
-		const root = Math.random().toString();
-		const path = Math.random().toString();
+		const root = Math.random().toString() + mod._DataRootNeedle();
+		const index = uRandomElement(true, false);
+		const path = index ? '/' : Math.random().toString();
 
 		deepEqual(_DataURL({
 			root,
 			path,
-		}), root + path);
-	});
-
-	it('replaces /', function () {
-		const root = Math.random().toString();
-
-		deepEqual(_DataURL({
-			root,
-			path: '/',
-		}), root + '/index.html');
+		}), mod._DataRootBase(root) + (index ? mod._DataRootNeedle() : path));
 	});
 
 });

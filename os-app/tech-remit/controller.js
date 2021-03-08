@@ -88,8 +88,25 @@ const mod = {
 		return raw.split(needle + '/index.html').join('/').split(needle).join('').replace('</head>', `<meta property="og:image" content="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }"></head>`);
 	},
 
+	_DataRootNeedle () {
+		return '/index.html';
+	},
+
+	_DataRootBase (inputData) {
+		if (typeof inputData !== 'string') {
+			throw new Error('GRDErrorInputNotValid');
+		}
+
+		if (inputData.slice(-(mod._DataRootNeedle().length)) !== mod._DataRootNeedle()) {
+			throw new Error('GRDErrorInputNotValid');
+		}
+
+		return inputData.split(mod._DataRootNeedle()).shift();
+	},
+
 	DataURL (root, path) {
-		return root + (path === '/' ? '/index.html' : path);
+		const base = mod._DataRootBase(root);
+		return base + (path === '/' ? mod._DataRootNeedle() : path);
 	},
 
 };
