@@ -89,14 +89,6 @@ const mod = {
 	},
 
 	DataURL (root, path) {
-		if (root === mod.DataDomainMap()[process.env._GRD_REF_DOMAIN] && (path.startsWith(process.env._GRD_REF_DIR) || path !== '/' && !path.match(/^\/[a-z0-9]+$/))) {
-			root = process.env._GRD_REF_TEMPLATE;
-
-			if (path.match(process.env._GRD_REF_DIR)) {
-				path = (process.env._GRD_REF_DIR + '/').split('//').join('/');
-			}
-		}
-
 		return root + (path === '/' ? '/index.html' : path);
 	},
 
