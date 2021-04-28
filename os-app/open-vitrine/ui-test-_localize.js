@@ -6,7 +6,7 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 		return OLSKTestingLocalized(inputData, OLSKRoutingLanguage);
 	};
 
-	describe(`GRDVitrine_Localize-${ OLSKRoutingLanguage }`, function () {
+	describe('GRDVitrine_Localize-' + OLSKRoutingLanguage, function () {
 
 		before(function() {
 			return browser.OLSKVisit(kDefaultRoute, {
