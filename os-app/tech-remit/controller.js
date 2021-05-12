@@ -14,6 +14,15 @@ const mod = {
 		}
 		
 		try {
+			if (req.path.endsWith('.png')) {
+				const source = mod.DataURL(mod.DataDomainMap()[req.hostname], req.path);
+				const destination = require('path').join(__dirname, require('crypto').createHash('md5').update(source).digest('hex') + '.png');
+
+				await require('util').promisify(require('stream').pipeline)((await require('node-fetch')(source)).body, require('fs').createWriteStream(destination));
+
+				return res.sendFile(destination);
+			}
+			
 			return res.send(await this.DataResponseBody({
 				ParamHostname: req.hostname,
 				ParamPath: req.path,
