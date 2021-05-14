@@ -15,9 +15,10 @@ const mod = {
 		
 		try {
 			const match = req.path.match(/\.(\w+)$/);
-			if (match && (match !== 'html')) {
+			if (match && (match[1] !== 'html')) {
+			console.log(match);
 				const source = mod.DataURL(mod.DataDomainMap()[req.hostname], req.path);
-				const destination = require('path').join(__dirname, require('crypto').createHash('md5').update(source).digest('hex') + '.png');
+				const destination = require('path').join(__dirname, require('crypto').createHash('md5').update(source).digest('hex') + match[0]);
 
 				await require('util').promisify(require('stream').pipeline)((await require('node-fetch')(source)).body, require('fs').createWriteStream(destination));
 
