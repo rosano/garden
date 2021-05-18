@@ -61,7 +61,9 @@ const mod = {
 
 		Object.entries(response.headers.raw()).map(function ([key, value]) {
 			value.map(function (e) {
-				params.ParamResponse.set(key, e);
+				if (!['content-encoding'].includes(key)) {
+					params.ParamResponse.set(key, e);
+				}
 			});
 		});
 
