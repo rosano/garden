@@ -16,7 +16,6 @@ const mod = {
 		try {
 			const match = req.path.match(/\.(\w+)$/);
 			if (match && (match[1] !== 'html')) {
-			console.log(match);
 				const source = mod.DataURL(mod.DataDomainMap()[req.hostname], req.path);
 				const destination = require('path').join(__dirname, require('crypto').createHash('md5').update(source).digest('hex') + match[0]);
 
