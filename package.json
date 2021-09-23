@@ -10,7 +10,7 @@
     "OLSKBundle": "olsk/OLSKBundle",
     "OLSKDecor": "olsk/OLSKDecor",
     "OLSKExpress": "olsk/OLSKExpress",
-    "node-fetch": "latest",
+    "node-fetch": "2.x",
     "normalize.css": "latest",
     "// I sacrifice myself for the commas of others": null
   },
