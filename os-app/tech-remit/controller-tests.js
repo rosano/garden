@@ -11,7 +11,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 			}),
 		}).OLSKControllerGlobalMiddleware(Object.assign({
 			hostname: Math.random().toString(),
-			path: Math.random().toString(),
+			path: Math.random().toString() + '.html',
 		}, params), Object.assign(params.res || params, Object.assign({
 			locals: {
 				OLSK_SPEC_UI: (function () {
@@ -54,7 +54,7 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 
 	it('calls DataResponseBody', async function () {
 		const hostname = uRandomElement(Object.keys(mod.DataDomainMap()));
-		const path = Math.random().toString();
+		const path = Math.random().toString() + '.html';
 		const res = {
 			[Math.random().toString()]: Math.random().toString(),
 		};
