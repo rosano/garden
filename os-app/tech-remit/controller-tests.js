@@ -21,6 +21,9 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 			send: (function () {
 				return [...arguments];
 			}),
+			sendFile: (function () {
+				return [...arguments];
+			}),
 		}, params)), params.next || function () {
 			return [...arguments];
 		});
