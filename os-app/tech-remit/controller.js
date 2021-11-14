@@ -13,6 +13,10 @@ const mod = {
 			return next();
 		}
 		
+		if (req.path === '/robots.txt') {
+			return next();
+		}
+		
 		try {
 			const match = req.path.match(/\.(\w+)$/);
 			if (match && (match[1] !== 'html')) {

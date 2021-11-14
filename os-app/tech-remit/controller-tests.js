@@ -40,6 +40,18 @@ describe('OLSKControllerGlobalMiddleware', function test_OLSKControllerGlobalMid
 		}), next);
 	});
 
+	it('calls next if /robots.txt', async function () {
+		const next = Math.random().toString();
+
+		deepEqual(await _OLSKControllerGlobalMiddleware({
+			hostname: uRandomElement(Object.keys(mod.DataDomainMap())),
+			path: '/robots.txt',
+			next: (function () {
+				return next;
+			}),
+		}), next);
+	});
+
 	it('calls DataResponseBody', async function () {
 		const hostname = uRandomElement(Object.keys(mod.DataDomainMap()));
 		const path = Math.random().toString();
