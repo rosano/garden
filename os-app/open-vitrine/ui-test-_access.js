@@ -8,7 +8,7 @@ Object.entries({
 	GRDVitrineCrownName: '.GRDVitrineCrownName',
 	GRDVitrineCrownBlurb: '.GRDVitrineCrownBlurb',
 }).map(function (e) {
-	return global[e.shift()]  = e.pop();
+	return global[e.shift()] = e.pop();
 });
 
 describe('GRDVitrine_Access', function () {

@@ -8,7 +8,7 @@ Object.entries({
 	
 	GRDError404Content: '.GRDError404Content',
 }).map(function (e) {
-	return global[e.shift()]  = e.pop();
+	return global[e.shift()] = e.pop();
 });
 
 describe('GRDError404_Access', function () {
