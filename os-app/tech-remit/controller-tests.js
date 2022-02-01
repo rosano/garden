@@ -267,14 +267,23 @@ describe('DataContent', function test_DataContent() {
 		}), raw + '/');
 	});
 
-	context('meta', function () {
+	context('head', function () {
 		
-		it('inserts og:image', function () {
-			const raw = Math.random().toString() + '</head></head>';
+		const item = Math.random().toString();
+		const content = _DataContent({
+			raw: `<head>${ item }</head>`,
+		}).split('<head>').slice(1).join('').split('</head>').slice(0, -1).join('').split('\n');
 
-			deepEqual(_DataContent({
-				raw,
-			}), raw.replace('</head>', `<meta property="og:image" content="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }"></head>`));
+		it('maintains original', function () {
+			deepEqual(content[0], item);
+		});
+
+		it('inserts og:image', function () {
+			deepEqual(content[1], `<meta property="og:image" content="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }">`);
+		});
+		
+		it('inserts apple-touch-icon', function () {
+			deepEqual(content[2], `<link rel="apple-touch-icon" href="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }" />`);
 		});
 	
 	});

@@ -86,7 +86,7 @@ const mod = {
 
 	DataContent (raw, root) {
 		const base = mod._DataRootBase(root);
-		return raw.split(root).join('/').split(base).join('').replace('</head>', `<meta property="og:image" content="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }"></head>`);
+		return raw.split(root).join('/').split(base).join('').replace('</head>', `\n<meta property="og:image" content="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }">\n<link rel="apple-touch-icon" href="${ process.env.OLSK_LAYOUT_TOUCH_ICON_URL }" />\n</head>`);
 	},
 
 	_DataRootNeedle () {
