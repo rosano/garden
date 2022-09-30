@@ -11,11 +11,9 @@
     "OLSKDecor": "olsk/OLSKDecor",
     "OLSKExpress": "olsk/OLSKExpress",
     "node-fetch": "2.x",
-    "normalize.css": "latest",
-    "//": "I sacrifice myself for the commas of others"
+    "normalize.css": "latest"
   },
   "devDependencies": {
-    "OLSKSpec": "olsk/OLSKSpec",
-    "//": "I sacrifice myself for the commas of others"
+    "OLSKSpec": "olsk/OLSKSpec"
   }
 }
