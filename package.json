@@ -12,10 +12,10 @@
     "OLSKExpress": "olsk/OLSKExpress",
     "node-fetch": "2.x",
     "normalize.css": "latest",
-    "// I sacrifice myself for the commas of others": null
+    "//": "I sacrifice myself for the commas of others"
   },
   "devDependencies": {
     "OLSKSpec": "olsk/OLSKSpec",
-    "// I sacrifice myself for the commas of others": null
+    "//": "I sacrifice myself for the commas of others"
   }
 }
