@@ -9,11 +9,11 @@ describe('GRDVitrine_Misc', function () {
 	describe('GRDVitrine', function () {
 		
 		it('classes OLSKDecor', function () {
-			browser.assert.hasClass(GRDVitrine, 'OLSKDecor');
+			return browser.assert.hasClass(GRDVitrine, 'OLSKDecor');
 		});
 
 		it('classes OLSKDecorCapped', function () {
-			browser.assert.hasClass(GRDVitrine, 'OLSKDecorCapped');
+			return browser.assert.hasClass(GRDVitrine, 'OLSKDecorCapped');
 		});
 	
 	});
@@ -21,11 +21,11 @@ describe('GRDVitrine_Misc', function () {
 	describe('GRDVitrineCrown', function test_GRDVitrineCrown() {
 
 		it('classes OLSKCommonCard', function () {
-			browser.assert.hasClass(GRDVitrineCrown, 'OLSKCommonCard');
+			return browser.assert.hasClass(GRDVitrineCrown, 'OLSKCommonCard');
 		});
 
 		it('classes OLSKCommonCrownCard', function () {
-			browser.assert.hasClass(GRDVitrineCrown, 'OLSKCommonCrownCard');
+			return browser.assert.hasClass(GRDVitrineCrown, 'OLSKCommonCrownCard');
 		});
 		
 	});
@@ -33,11 +33,11 @@ describe('GRDVitrine_Misc', function () {
 	describe('GRDVitrineCrownIcon', function () {
 
 		it('sets role', function () {
-			browser.assert.attribute(GRDVitrineCrownIcon, 'role', 'presentation');
+			return browser.assert.attribute(GRDVitrineCrownIcon, 'role', 'presentation');
 		});
 
 		it('sets src', function () {
-			browser.assert.attribute(GRDVitrineCrownIcon, 'src', process.env.OLSK_EXPRESS_IDENTITY_ICON_URL);
+			return browser.assert.attribute(GRDVitrineCrownIcon, 'src', process.env.OLSK_EXPRESS_IDENTITY_ICON_URL);
 		});
 
 	});

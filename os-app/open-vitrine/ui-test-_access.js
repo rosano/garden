@@ -18,23 +18,23 @@ describe('GRDVitrine_Access', function () {
 	});
 	
 	it('shows GRDVitrine', function() {
-		browser.assert.elements(GRDVitrine, 1);
+		return browser.assert.elements(GRDVitrine, 1);
 	});
 	
 	it('shows GRDVitrineCrown', function() {
-		browser.assert.elements(GRDVitrineCrown, 1);
+		return browser.assert.elements(GRDVitrineCrown, 1);
 	});
 	
 	it('shows GRDVitrineCrownIcon', function() {
-		browser.assert.elements(GRDVitrineCrownIcon, 1);
+		return browser.assert.elements(GRDVitrineCrownIcon, 1);
 	});
 	
 	it('shows GRDVitrineCrownName', function() {
-		browser.assert.elements(GRDVitrineCrownName, 1);
+		return browser.assert.elements(GRDVitrineCrownName, 1);
 	});
 
 	it('shows GRDVitrineCrownBlurb', function () {
-		browser.assert.elements(GRDVitrineCrownBlurb, 1);
+		return browser.assert.elements(GRDVitrineCrownBlurb, 1);
 	});
 	
 });

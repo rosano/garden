@@ -15,19 +15,19 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 		});
 
 		it('localizes title', function() {
-			browser.assert.text('title', uLocalized('GRDVitrineTitle'));
+			return browser.assert.text('title', uLocalized('GRDVitrineTitle'));
 		});
 
 		it('localizes meta[description]', function() {
-			browser.assert.attribute('meta[name=description]', 'content', uLocalized('GRDVitrineDescription'));
+			return browser.assert.attribute('meta[name=description]', 'content', uLocalized('GRDVitrineDescription'));
 		});
 
 		it('localizes GRDVitrineCrownName', function () {
-			browser.assert.text(GRDVitrineCrownName, uLocalized('GRDVitrineTitle'));
+			return browser.assert.text(GRDVitrineCrownName, uLocalized('GRDVitrineTitle'));
 		});
 
 		it('localizes GRDVitrineCrownBlurb', function () {
-			browser.assert.text(GRDVitrineCrownBlurb, uLocalized('GRDVitrineDescription'));
+			return browser.assert.text(GRDVitrineCrownBlurb, uLocalized('GRDVitrineDescription'));
 		});
 
 	});

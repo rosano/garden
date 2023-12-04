@@ -15,15 +15,15 @@ kDefaultRoute.OLSKRouteLanguageCodes.forEach(function (OLSKRoutingLanguage) {
 		});
 
 		it('localizes title', function() {
-			browser.assert.text('title', uLocalized('GRDError404Title'));
+			return browser.assert.text('title', uLocalized('GRDError404Title'));
 		});
 
 		it('localizes GRDError404CrownName', function () {
-			browser.assert.text(GRDError404CrownName, uLocalized('GRDError404Title'));
+			return browser.assert.text(GRDError404CrownName, uLocalized('GRDError404Title'));
 		});
 
 		it('localizes GRDError404Content', function () {
-			browser.assert.text(GRDError404Content, uLocalized('GRDError404ContentText'));
+			return browser.assert.text(GRDError404Content, uLocalized('GRDError404ContentText'));
 		});
 
 	});

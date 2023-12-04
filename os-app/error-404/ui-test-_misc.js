@@ -9,11 +9,11 @@ describe('GRDError404_Misc', function () {
 	describe('GRDError404', function test_GRDError404 () {
 		
 		it('classes OLSKDecor', function () {
-			browser.assert.hasClass(GRDError404, 'OLSKDecor');
+			return browser.assert.hasClass(GRDError404, 'OLSKDecor');
 		});
 
 		it('classes OLSKDecorCapped', function () {
-			browser.assert.hasClass(GRDError404, 'OLSKDecorCapped');
+			return browser.assert.hasClass(GRDError404, 'OLSKDecorCapped');
 		});
 	
 	});
@@ -21,11 +21,11 @@ describe('GRDError404_Misc', function () {
 	describe('GRDError404Crown', function test_GRDError404Crown() {
 
 		it('classes OLSKCommonCard', function () {
-			browser.assert.hasClass(GRDError404Crown, 'OLSKCommonCard');
+			return browser.assert.hasClass(GRDError404Crown, 'OLSKCommonCard');
 		});
 
 		it('classes OLSKCommonCrownCard', function () {
-			browser.assert.hasClass(GRDError404Crown, 'OLSKCommonCrownCard');
+			return browser.assert.hasClass(GRDError404Crown, 'OLSKCommonCrownCard');
 		});
 		
 	});

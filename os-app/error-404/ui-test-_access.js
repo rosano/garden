@@ -18,19 +18,19 @@ describe('GRDError404_Access', function () {
 	});
 	
 	it('shows GRDError404', function() {
-		browser.assert.elements(GRDError404, 1);
+		return browser.assert.elements(GRDError404, 1);
 	});
 	
 	it('shows GRDError404Crown', function() {
-		browser.assert.elements(GRDError404Crown, 1);
+		return browser.assert.elements(GRDError404Crown, 1);
 	});
 	
 	it('shows GRDError404CrownName', function() {
-		browser.assert.elements(GRDError404CrownName, 1);
+		return browser.assert.elements(GRDError404CrownName, 1);
 	});
 
 	it('shows GRDError404Content', function () {
-		browser.assert.elements(GRDError404Content, 1);
+		return browser.assert.elements(GRDError404Content, 1);
 	});
 
 });
