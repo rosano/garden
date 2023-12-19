@@ -29,4 +29,14 @@ locals.OLSKPagePublicConstants = {
 	<dd>Hmm, wouldn't you like to know?</dd>
 </dl>
 
+<script src="https://olsk.rosano.ca/OLSKLatest/master/main.js"></script>
+<div class="GRDVitrineLatest"></div>
+<script type="text/javascript">
+OLSKLatest.load({
+	parent: document.querySelector('.GRDVitrineLatest'),
+	feed: '<%= process.env.ROCO_FEED_URL %>',
+	limit: 5,
+});
+</script>
+
 </div>
